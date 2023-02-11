@@ -1,0 +1,4 @@
+#!/bin/bash
+for file in `find $1`; do
+	magick "$file" -quality 85% "$file.webp"
+done
