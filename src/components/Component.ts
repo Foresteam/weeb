@@ -6,11 +6,16 @@ import md5 from 'blueimp-md5';
 // 	[k: string]: any;
 // }
 /** Applies the scope to last stylesheet loaded */
-export const applyScope = (scope: string): void => {
-	const theStyle = Array.from(document.getElementsByTagName('style')).pop();
-	if (!theStyle)
+export const applyScope = (styles: string, scope: string): void => {
+	let style: HTMLStyleElement | undefined;
+	for (const candidate of Array.from(document.getElementsByTagName('style')))
+		if (candidate.innerHTML == styles) {
+			style = candidate;
+			break;
+		}
+	if (!style)
 		return;
-	const sts = theStyle.innerHTML.split('\n');
+	const sts = styles.split('\n');
 	for (const l in sts) {
 		const s = sts[l];
 		if (s.indexOf('{') < 0)
@@ -22,7 +27,18 @@ export const applyScope = (scope: string): void => {
 		// }
 		// sts[l] = s.split(', ').map(s => scope + ' ' + s).join(', ');
 	}
-	theStyle.innerHTML = sts.join('\n');
+	const css = sts.join('\n');
+	for (const existing of Array.from(document.getElementsByTagName('style')))
+		if (existing.innerHTML == css) {
+			style.remove();
+			return;
+		}
+	style.innerHTML = css;
+};
+export const useStyle = async (path: string, uname?: string, scope?: false | string) => {
+	const styles = (await import(path) as { default: string }).default;
+	if (scope !== false && (scope || uname))
+		applyScope(styles, scope ?? genScope(uname as string));
 };
 
 export const getHash = (s: string) => {
@@ -38,6 +54,7 @@ export const getHash = (s: string) => {
 };
 
 export const genUUID = () => '_u_' + uuidv4();
+export const genScope = (uname: string) => '_s_' + md5(uname);
 
 export interface VNode extends HTMLElement {
 	/** The unique identifier of the root node of the component */
@@ -69,8 +86,7 @@ export const Component = (html: string, uname: string, props: ComponentProps = {
 	if (!vnode)
 		throw new Error('Failed to parse vnode: empty');
 	if (scope !== false) {
-		scope ??= '_s_' + md5(uname);
-		applyScope(scope);
+		scope ??= genScope(uname);
 		vnode.classList.add(scope);
 	}
 	

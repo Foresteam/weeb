@@ -1,5 +1,4 @@
-import './Image.sass';
-import { Component, type VNode, type ComponentProps } from '../Component';
+import { Component, useStyle, type VNode, type ComponentProps } from '../Component';
 
 export interface ImageProps extends ComponentProps {
 	src: string;
@@ -15,3 +14,5 @@ export const Image = ({ src, ...props }: ImageProps): VNode => {
 
 	return img;
 };
+
+useStyle('./image/Image.sass', Image.name);
