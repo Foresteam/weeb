@@ -8,14 +8,7 @@ import { type IAccessor } from './Accessor';
 // }
 /** Applies the scope to last stylesheet loaded */
 export const applyScope = (styles: string, scope: string): void => {
-	let style: HTMLStyleElement | undefined;
-	for (const candidate of Array.from(document.getElementsByTagName('style')))
-		if (candidate.innerHTML == styles) {
-			style = candidate;
-			break;
-		}
-	if (!style)
-		return;
+	const style = document.createElement('style');
 	const sts = styles.split('\n');
 	for (const l in sts) {
 		const s = sts[l];
@@ -36,9 +29,9 @@ export const applyScope = (styles: string, scope: string): void => {
 			return;
 		}
 	style.innerHTML = css;
+	document.head.appendChild(style);
 };
-export const useStyle = async (path: string, uname?: string, scope?: false | string) => {
-	const styles = (await import(path) as { default: string }).default;
+export const useStyle = async (styles: string, uname?: string, scope?: false | string) => {
 	if (scope !== false && (scope || uname))
 		applyScope(styles, scope ?? genScope(uname as string));
 };

@@ -1,5 +1,5 @@
-import { Accessor, type IAccessor, Proxify } from '../Accessor';
-import { Component, useStyle, type VNode, type ComponentProps, useCssVars } from '../Component';
+import { Accessor, type IAccessor, Proxify } from 'lib/Accessor';
+import { Component, useStyle, type VNode, type ComponentProps, useCssVars } from 'lib/Component';
 
 export interface ImageProps extends ComponentProps {
 	src: string | IAccessor<string>;
@@ -30,4 +30,6 @@ export const Image = ({ src: _src, ...props }: ImageProps): VNode => {
 	return self;
 };
 
-useStyle('./image/Image.sass', Image.name);
+//styles
+import style from './Image.sass?inline';
+useStyle(style, Image.name);
