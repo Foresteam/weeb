@@ -1,0 +1,91 @@
+section.header {
+	color: white;
+	height: 765px;
+	background-image: url('/img/hills_lake_d.png.webp');
+	&.mobile {
+		background-image: url('/img/hills_lake_m.png.webp');
+		height: 251px;
+	}
+	div.nav {
+		background-color: #F2785CB2;
+		display: flex;
+		flex-flow: row;
+		align-items: center;
+		justify-content: space-between;
+		width: 100%;
+		box-shadow: 0px 4px 4px rgba(13, 96, 111, 0.5);
+		font-family: 'Red Hat Text';
+
+		>:first-child {
+			margin-left: 120px;
+		}
+		>:last-child {
+			margin-right: 120px;
+		}
+
+		height: 90px;
+		font-weight: 500;
+		font-size: 16px;
+		line-height: 21px;
+		input {
+			font-size: inherit;
+			line-height: inherit;
+			padding: 10px 30px;
+		}
+
+		nav {
+			display: flex;
+			flex-flow: row;
+			align-items: center;
+			gap: 42px;
+			>* {
+				cursor: pointer;
+			}
+		}
+	}
+	div.content {
+		font-family: 'Aleo';
+		font-weight: 700;
+		display: flex;
+		flex-flow: column;
+		gap: 46px;
+
+		.subtitle {
+			font-style: italic;
+			font-size: 20px;
+			line-height: 24px;
+		}
+		.title {
+			font-size: 80px;
+			line-height: 96px;
+		}
+		.like-form {
+			display: flex;
+			flex-flow: row;
+			align-items: center;
+			justify-content: space-between;
+			font-style: italic;
+			color: #F2785C;
+			background-color: rgba(255, 255, 255, 0.7);
+			border-radius: 16px;
+			padding: 18px 18px 18px 41px;
+		}
+
+		margin-top: 32px;
+		margin-left: 120px;
+		margin-right: 428px;
+		bottom: 221px;
+	}
+}
+section >.bicycle-wrapper {
+	display: flex;
+	flex-flow: row;
+	padding: 0px 132px;
+	justify-content: center;
+	>:first-child {
+		margin-right: 231px;
+	}
+	>:last-child {
+		margin-left: 160px;
+	}
+}

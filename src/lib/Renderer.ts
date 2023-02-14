@@ -1,6 +1,6 @@
 import { type TComponent, type ComponentProps } from './Component';
 
-export const App = (vhtml: string, components: { [key: string]: TComponent}): string => {
+export const Renderer = (vhtml: string, components: { [key: string]: TComponent}): string => {
 	const vdom = new DOMParser().parseFromString(vhtml, 'text/html');
 	vhtml = vdom.documentElement.outerHTML;
 	for (const [name, component] of Object.entries(components))
