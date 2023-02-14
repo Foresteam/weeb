@@ -1,22 +1,23 @@
-import { Accessor } from '../Accessor';
+import { Accessor, type IAccessor, Proxify } from '../Accessor';
 import { Component, useStyle, type VNode, type ComponentProps, useCssVars } from '../Component';
 
 export interface ImageProps extends ComponentProps {
-	src: string | Accessor<string>;
+	src: string | IAccessor<string>;
 }
 
 export const Image = ({ src: _src, ...props }: ImageProps): VNode => {
-	const src = _src instanceof Accessor ? _src : new Accessor(_src);
-	const borderRadius = new Accessor('0%');
-	console.log(src, src.get());
+	const src = Proxify(_src);
+	const borderRadius = Accessor('0%');
 
 	const self = {
 		exports: {
-			borderRadius
-		} as VNode['exports'],
+			css: {
+				borderRadius
+			}
+		} as unknown as VNode['exports'],
 		...Component(
 		/*html*/`
-			<img src="${src.get()}">
+			<img src="${src.value}">
 		`,
 			Image.name,
 			props
@@ -24,7 +25,7 @@ export const Image = ({ src: _src, ...props }: ImageProps): VNode => {
 	};
 	useCssVars(self);
 
-	setTimeout(() => borderRadius.set('50%'), 1000);
+	setTimeout(() => borderRadius.value = '50%', 1000);
 
 	return self;
 };

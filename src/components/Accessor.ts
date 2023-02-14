@@ -1,37 +1,45 @@
-export interface _IAccessorValue<T> {
-	value: T;
-}
 export interface IAccessorArgs<T> {
-	get: (this: _IAccessorValue<T>) => T;
-	set: (this: _IAccessorValue<T>, newValue: T) => unknown;
+	get: (this: IAccessor<T>) => T;
+	set: (this: IAccessor<T>, newValue: T) => boolean;
 }
 export interface INAccessorArgs {
 	get: undefined;
 	set: undefined;
 }
-export class Accessor<T> {
-	get: () => T;
-	set: (newValue: T) => unknown;
+export interface IAccessor<T> {
+	value: T;
 	onChange: (callback: (value: T) => unknown) => void;
-	// removeListener: (callback: (value: T) => unknown) => void;
-
-	constructor(value: T, actions?: IAccessorArgs<T> | INAccessorArgs) {
-		const o: _IAccessorValue<T> = { value };
-		const listeners: Parameters<Accessor<T>['onChange']>[0][] = [];
-		
-		let { get: _get, set: _set } = actions ?? {};
-		_get ??= function () { return o.value; };
-		_set ??= (newValue) => o.value = newValue;
-
-		const get: IAccessorArgs<T>['get'] = () => (_get as IAccessorArgs<T>['get']).call(o);
-		const set: IAccessorArgs<T>['set'] = (newValue) => {
-			(_set as IAccessorArgs<T>['set']).call(o, newValue);
-			listeners.forEach(l => l(newValue));
-		};
-
-		this.get = get;
-		this.set = set;
-		this.onChange = callback => listeners.push(callback);
-		// this.removeListener = callback => (listeners.indexOf(callback) >= 0 ? listeners.splice(listeners.indexOf(callback), 1) : undefined);
-	}
+	removeListener: (callback: (value: T) => unknown) => void;
 }
+
+export const Accessor = (<T>(value: T, actions?: IAccessorArgs<T> | INAccessorArgs): IAccessor<T> => {
+	const listeners: Parameters<IAccessor<T>['onChange']>[0][] = [];
+	const o: IAccessor<T> = {
+		value,
+		onChange: (callback: (value: T) => unknown) => listeners.push(callback),
+		removeListener: () => undefined
+	};
+
+	let { get: _get, set: _set } = actions ?? {};
+	_get ??= function () { return o.value; };
+	_set ??= (newValue) => !!(o.value = newValue);
+
+	const get = () => (_get as IAccessorArgs<T>['get']).call(o);
+	const set = (newValue: T) => {
+		listeners.forEach(l => l(newValue));
+		return !!(_set as IAccessorArgs<T>['set']).call(o, newValue);
+	};
+
+	const self = new Proxy(o, {
+		get: (_, p) => p == 'value' ? get() : o[p as keyof IAccessor<T>],
+		set: (_, __, newValue) => set(newValue)
+	}) as unknown as IAccessor<T>;
+
+	return self;
+});
+
+export const Proxify = <T>(value: T): T extends IAccessor<infer A> ? IAccessor<A> : IAccessor<T> => {
+	if (value instanceof Proxy)
+		return value as T extends IAccessor<infer A> ? IAccessor<A> : IAccessor<T>;
+	return Accessor(value) as T extends IAccessor<infer A> ? IAccessor<A> : IAccessor<T>;
+};

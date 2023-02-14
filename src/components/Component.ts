@@ -1,6 +1,6 @@
 import { v4 as uuidv4 } from 'uuid';
 import md5 from 'blueimp-md5';
-import { Accessor } from './Accessor';
+import { type IAccessor } from './Accessor';
 
 // export interface StyleProps {
 // 	override?: boolean;
@@ -67,7 +67,11 @@ export interface VNode {
 	vnode: HTMLElement;
 	/** Component real node getter */
 	node: () => (HTMLElement | undefined);
-	exports?: { [key: string]: Accessor<unknown> };
+	exports?: {
+		css?: {
+			[key: string]: IAccessor<string>;
+		}
+	} & { [key: string]: IAccessor<unknown>; };
 }
 export interface ComponentParams {
 	/** The unique identifier for the root node of the component */
@@ -128,12 +132,12 @@ export const CSS_VAR_PREFIX = '__vcss_';
 export const useCssVars = (vnode: VNode): void => {
 	if (!vnode.exports)
 		return;
-	for (const [varname, accessor] of Object.entries(vnode.exports)) {
+	for (const [varname, accessor] of Object.entries(vnode.exports.css || {})) {
 		const apply = (value: string) => {
 			for (const node of [vnode.vnode, vnode.node()])
 				node?.style.setProperty(`--${CSS_VAR_PREFIX}${varname}`, value);
 		};
 		accessor.onChange(value => apply(value as string));
-		apply(accessor.get() as string);
+		apply(accessor.value as string);
 	}
 };
