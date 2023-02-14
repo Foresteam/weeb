@@ -1,4 +1,4 @@
-import { Accessor, type IAccessor, Proxify } from 'lib/Accessor';
+import { Accessor, type IAccessor, Accessorify } from 'lib/Accessor';
 import { Component, useStyle, type VNode, type ComponentProps, useCssVars } from 'lib/Component';
 
 export interface ImageProps extends ComponentProps {
@@ -6,7 +6,7 @@ export interface ImageProps extends ComponentProps {
 }
 
 export const Image = ({ src: _src, ...props }: ImageProps): VNode => {
-	const src = Proxify(_src);
+	const src = Accessorify(_src);
 	const borderRadius = Accessor('0%');
 
 	const self = {

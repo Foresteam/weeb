@@ -12,7 +12,7 @@ export interface IAccessor<T> {
 	removeListener: (callback: (value: T) => unknown) => void;
 }
 
-export const Accessor = (<T>(value: T, actions?: IAccessorArgs<T> | INAccessorArgs): IAccessor<T> => {
+export const Accessor = <T>(value: T, actions?: IAccessorArgs<T> | INAccessorArgs): IAccessor<T> => {
 	const listeners: Parameters<IAccessor<T>['onChange']>[0][] = [];
 	const o: IAccessor<T> = {
 		value,
@@ -36,9 +36,9 @@ export const Accessor = (<T>(value: T, actions?: IAccessorArgs<T> | INAccessorAr
 	}) as unknown as IAccessor<T>;
 
 	return self;
-});
+};
 
-export const Proxify = <T>(value: T): T extends IAccessor<infer A> ? IAccessor<A> : IAccessor<T> => {
+export const Accessorify = <T>(value: T): T extends IAccessor<infer A> ? IAccessor<A> : IAccessor<T> => {
 	if (value instanceof Proxy)
 		return value as T extends IAccessor<infer A> ? IAccessor<A> : IAccessor<T>;
 	return Accessor(value) as T extends IAccessor<infer A> ? IAccessor<A> : IAccessor<T>;
