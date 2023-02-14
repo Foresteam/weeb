@@ -1,5 +1,6 @@
 import { v4 as uuidv4 } from 'uuid';
 import md5 from 'blueimp-md5';
+import { Accessor } from './Accessor';
 
 // export interface StyleProps {
 // 	override?: boolean;
@@ -18,14 +19,15 @@ export const applyScope = (styles: string, scope: string): void => {
 	const sts = styles.split('\n');
 	for (const l in sts) {
 		const s = sts[l];
-		if (s.indexOf('{') < 0)
+		if (s.indexOf('{') < 0) {
+			// replace css var-funcs
+			for (let [match] of [...s.matchAll(/vcss\(.*?\)/g)]) {
+				match = match.replaceAll('\'', '');
+				sts[l] = sts[l].replace(match, `var(--${CSS_VAR_PREFIX}${match.substring(5, match.length - 1)})`);
+			}
 			continue;
+		}
 		sts[l] = s.replaceAll('__vscope', scope);
-		// if (s == '.__root') {
-		// 	sts[l] = scope + ' {';
-		// 	continue;
-		// }
-		// sts[l] = s.split(', ').map(s => scope + ' ' + s).join(', ');
 	}
 	const css = sts.join('\n');
 	for (const existing of Array.from(document.getElementsByTagName('style')))
@@ -56,13 +58,16 @@ export const getHash = (s: string) => {
 export const genUUID = () => '_u_' + uuidv4();
 export const genScope = (uname: string) => '_s_' + md5(uname);
 
-export interface VNode extends HTMLElement {
+export interface VNode {
 	/** The unique identifier of the root node of the component */
 	uuid: string;
 	/** The rendered node itself */
 	render: () => string;
+	/** VNode */
+	vnode: HTMLElement;
 	/** Component real node getter */
-	node: () => (HTMLElement | null);
+	node: () => (HTMLElement | undefined);
+	exports?: { [key: string]: Accessor<unknown> };
 }
 export interface ComponentParams {
 	/** The unique identifier for the root node of the component */
@@ -82,7 +87,7 @@ export type TComponent = (props: ComponentProps) => VNode;
 export const Component = (html: string, uname: string, props: ComponentProps = {}, { uuid, scope }: ComponentParams = {}): VNode => {
 	if (!uuid)
 		uuid = genUUID();
-	const vnode = new DOMParser().parseFromString(html, 'text/html').body.firstChild as (HTMLElement | null);
+	const vnode = new DOMParser().parseFromString(html, 'text/html').body.firstChild as (HTMLElement | undefined);
 	if (!vnode)
 		throw new Error('Failed to parse vnode: empty');
 	if (scope !== false) {
@@ -111,10 +116,24 @@ export const Component = (html: string, uname: string, props: ComponentProps = {
 				if (Object.keys(vnode.style).includes(style))
 					(vnode.style as unknown as { [key: string]: unknown })[style] = value;
 
-	return {
-		...vnode,
+	return Object.assign(vnode, {
+		vnode,
 		render: () => vnode.outerHTML,
 		uuid,
 		node: () => document.getElementsByClassName(uuid as string).item(0) as HTMLElement
-	};
+	});
+};
+
+export const CSS_VAR_PREFIX = '__vcss_';
+export const useCssVars = (vnode: VNode): void => {
+	if (!vnode.exports)
+		return;
+	for (const [varname, accessor] of Object.entries(vnode.exports)) {
+		const apply = (value: string) => {
+			for (const node of [vnode.vnode, vnode.node()])
+				node?.style.setProperty(`--${CSS_VAR_PREFIX}${varname}`, value);
+		};
+		accessor.onChange(value => apply(value as string));
+		apply(accessor.get() as string);
+	}
 };
