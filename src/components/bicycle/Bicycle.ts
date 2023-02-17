@@ -1,12 +1,12 @@
 import { type IAccessor, Accessorify } from 'lib/Accessor';
 import { Component, useStyle, type VNode, type ComponentProps, useCssVars } from 'lib/Component';
 
-export interface BicycleProps extends ComponentProps {
+export interface Props extends ComponentProps {
 	img: string | IAccessor<string>;
 	text: string | IAccessor<string>;
 }
 
-export const Bicycle = ({ img: _img, text: _text, ...props }: BicycleProps): VNode => {
+export const Bicycle = ({ img: _img, text: _text, ...props }: Props): VNode => {
 	const img = Accessorify(_img);
 	const text = Accessorify(_text);
 

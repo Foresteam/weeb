@@ -89,3 +89,28 @@ section >.bicycle-wrapper {
 		margin-left: 160px;
 	}
 }
+
+div.stories-footer {
+	background-image: url('/img/lake_boat_d.png');
+	background-repeat: no-repeat;
+	background-size: 100% auto;
+	background-position: 0% 100%;
+	.mobile {
+		background-image: url('/img/lake_boat_m.png');
+	}
+	section.stories {
+		background-color: #FFFFFFB2;
+		padding: 40px 120px;
+		display: flex;
+		flex-flow: column;
+		gap: 30px;
+	}
+	section.footer {
+		text-align: center;
+		font-family: 'Red Hat Text';
+		font-style: normal;
+		font-weight: 500;
+		font-size: 16px;
+		line-height: 21px;
+	}
+}

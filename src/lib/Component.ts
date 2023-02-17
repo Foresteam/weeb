@@ -1,6 +1,7 @@
 import { v4 as uuidv4 } from 'uuid';
 import md5 from 'blueimp-md5';
-import { type IAccessor } from './Accessor';
+import { type IAccessor, Accessor } from './Accessor';
+import { observingCallbacks } from './Observer';
 
 // export interface StyleProps {
 // 	override?: boolean;
@@ -57,9 +58,9 @@ export interface VNode {
 	/** The rendered node itself */
 	render: () => string;
 	/** VNode */
-	vnode: HTMLElement;
+	node: IAccessor<HTMLElement>;
 	/** Component real node getter */
-	node: () => (HTMLElement | undefined);
+	isMounted: () => boolean;
 	exports?: {
 		css?: {
 			[key: string]: IAccessor<string>;
@@ -84,41 +85,44 @@ export type TComponent = (props: ComponentProps) => VNode;
 export const Component = (html: string, uname: string, props: ComponentProps = {}, { uuid, scope }: ComponentParams = {}): VNode => {
 	if (!uuid)
 		uuid = genUUID();
-	const vnode = new DOMParser().parseFromString(html, 'text/html').body.firstChild as (HTMLElement | undefined);
-	if (!vnode)
+	const _vnode = new DOMParser().parseFromString(html, 'text/html').body.firstChild as (HTMLElement | undefined);
+	if (!_vnode)
 		throw new Error('Failed to parse vnode: empty');
+	const node = Accessor(_vnode as HTMLElement);
 	if (scope !== false) {
 		scope ??= genScope(uname);
-		vnode.classList.add(scope);
+		node.value.classList.add(scope);
 	}
 	
-	vnode.classList.add(uuid);
+	node.value.classList.add(uuid);
 	if (props.class)
 		if (typeof (props.class) == 'string')
 			for (const clss of (props.class as string).split(' '))
-				vnode.classList.add(clss);
+				node.value.classList.add(clss);
 		else if ((props.class as string[])[0])
 			for (const clss of props.class as string[])
-				vnode.classList.add(clss);
+				node.value.classList.add(clss);
 		else
 			for (const [clss, enable] of Object.entries(props.class))
-				vnode.classList.toggle(clss, enable);
+				node.value.classList.toggle(clss, enable);
 	if (props.style)
 		if (typeof (props.style) == 'string')
-			vnode.setAttribute('style', props.style as string);
+			node.value.setAttribute('style', props.style as string);
 		else if ((props.style as string[])[0])
-			vnode.setAttribute('style', (props.style as string[]).join('; '));
+			node.value.setAttribute('style', (props.style as string[]).join('; '));
 		else
 			for (const [style, value] of Object.entries(props.style as Record<string, unknown>))
-				if (Object.keys(vnode.style).includes(style))
-					(vnode.style as unknown as { [key: string]: unknown })[style] = value;
+				if (Object.keys(node.value.style).includes(style))
+					(node.value.style as unknown as { [key: string]: unknown })[style] = value;
 
-	return Object.assign(vnode, {
-		vnode,
-		render: () => vnode.outerHTML,
+	const vnode: VNode = {
+		node: node,
+		render: () => node.value.outerHTML,
 		uuid,
-		node: () => document.getElementsByClassName(uuid as string).item(0) as HTMLElement
-	});
+		isMounted: () => node.value != _vnode
+	};
+	useOnMounted(vnode, domNode => node.value = domNode);
+	return vnode;
 };
 
 export const CSS_VAR_PREFIX = '__vcss_';
@@ -126,11 +130,15 @@ export const useCssVars = (vnode: VNode): void => {
 	if (!vnode.exports)
 		return;
 	for (const [varname, accessor] of Object.entries(vnode.exports.css || {})) {
-		const apply = (value: string) => {
-			for (const node of [vnode.vnode, vnode.node()])
-				node?.style.setProperty(`--${CSS_VAR_PREFIX}${varname}`, value);
-		};
+		const apply = (value: string) =>
+			vnode.node.value.style.setProperty(`--${CSS_VAR_PREFIX}${varname}`, value);
 		accessor.onChange(value => apply(value as string));
 		apply(accessor.value as string);
 	}
+};
+
+export const useOnMounted = (vnode: VNode, callback: (node: HTMLElement) => unknown): void => {
+	if (!observingCallbacks[vnode.uuid])
+		observingCallbacks[vnode.uuid] = [];
+	observingCallbacks[vnode.uuid]?.push(callback);
 };

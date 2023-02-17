@@ -7,10 +7,38 @@ import { TitledSection } from './components/sections/TitledSection';
 import { TComponent } from 'lib/Component';
 import { Renderer } from 'lib/Renderer';
 import { Bicycle } from './components/bicycle/Bicycle';
+import { DescribedImage } from './components/described-image/DescribedImage';
 
 const app = document.querySelector<HTMLDivElement>('#app');
 if (!app)
 	throw new Error();
+
+const images = [
+	DescribedImage({
+		picture: '/img/rift_boat_d.png.webp',
+		title: '10 Photos of Attractive Thailand',
+		description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.Lorem ipsum dolor sit amet, consectetur adipiscing elit...',
+		furtherRead: { link: '/' }
+	}),
+	DescribedImage({
+		picture: '/img/road_d.png.webp',
+		title: 'Canyonlands National Park, Utah',
+		description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.Lorem ipsum dolor sit amet, consectetur adipiscing elit...',
+		furtherRead: { link: '/' }
+	}),
+	DescribedImage({
+		picture: '/img/snow_hills_d.png.webp',
+		title: 'I left my heart in the Mountains!',
+		description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.Lorem ipsum dolor sit amet, consectetur adipiscing elit...',
+		furtherRead: { link: '/' }
+	}),
+	DescribedImage({
+		picture: '/img/car_d.png.webp',
+		title: 'The Longest journey in my life!',
+		description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.Lorem ipsum dolor sit amet, consectetur adipiscing elit...',
+		furtherRead: { link: '/' }
+	})
+];
 
 app.innerHTML = Renderer(/*html*/
 	`
@@ -47,7 +75,16 @@ app.innerHTML = Renderer(/*html*/
 			</div>
 		</titled-section>
 		<titled-section name="POPULAR DESTINATIONS"></titled-section>
-		<titled-section name="TRAVEL STORIES"></titled-section>
+		<div class="stories-footer">
+			<titled-section name="TRAVEL STORIES" class="travel-stories">
+				<section class="stories">
+					${images.map(i => i.render()).join('\n')}
+				</section>
+			</titled-section>
+			<section class="footer">
+				All Rights Reserved © Travel Portal
+			</section>
+		</div>
 	`,
 	{
 		logo: Logo as TComponent,
