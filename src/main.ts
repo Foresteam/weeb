@@ -69,22 +69,33 @@ app.innerHTML = Renderer(/*html*/
 		</section>
 		<titled-section name="3 STEPS TO THE PERFECT TRIP">
 			<div class="bicycle-wrapper">
-				<bicycle img="/img/bicycle.svg" text="Tell us what you want to do"></bicycle>
-				<bicycle img="/img/calendar.svg" text="Share us preferable dates"></bicycle>
-				<bicycle img="/img/plane.svg" text="We will give you recommendations"></bicycle>
+				<bicycle img="/icons/bicycle.svg" text="Tell us what you want to do"></bicycle>
+				<bicycle img="/icons/calendar.svg" text="Share us preferable dates"></bicycle>
+				<bicycle img="/icons/plane.svg" text="We will give you recommendations"></bicycle>
 			</div>
 		</titled-section>
 		<titled-section name="POPULAR DESTINATIONS"></titled-section>
-		<div class="stories-footer">
-			<titled-section name="TRAVEL STORIES" class="travel-stories">
+		<titled-section name="TRAVEL STORIES" class="travel-stories">
+			<div class="stories-footer">
 				<section class="stories">
 					${images.map(i => i.render()).join('\n')}
+					<div class="flex-row" style="margin-top: 10px">
+						<button>
+							<img src="/icons/arrow-right.svg">
+							See More
+						</button>
+					</div>
 				</section>
-			</titled-section>
-			<section class="footer">
-				All Rights Reserved © Travel Portal
-			</section>
-		</div>
+				<section class="footer">
+					All Rights Reserved © Travel Portal
+					<div class="social">
+						<img src="/icons/insta.svg">
+						<img src="/icons/youtube.svg">
+						<img src="/icons/birder.svg">
+					</div>
+				</section>
+			</div>
+		</titled-section>
 	`,
 	{
 		logo: Logo as TComponent,

@@ -1,4 +1,4 @@
-import { Component, useStyle, type VNode, type ComponentProps, useOnMounted } from 'lib/Component';
+import { Component, useStyle, type VNode, type ComponentProps } from 'lib/Component';
 
 export interface Props extends ComponentProps {
 	picture: string;
