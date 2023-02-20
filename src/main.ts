@@ -12,6 +12,7 @@ import { Carousel } from './components/carousel/Carousel';
 import { CarouselImage } from './components/carousel/image/CarouselImage';
 import { IconedButton } from './components/iconed-button/IconedButton';
 import { NavMenu } from './components/nav-menu/NavMenu';
+import { Getter } from 'lib/Accessor';
 
 const app = document.querySelector<HTMLDivElement>('#app');
 if (!app)
@@ -21,17 +22,19 @@ const mount = () => app.innerHTML = Renderer(/*html*/
 	`
 		<section class="header">
 			<div class="nav">
-				<logo mobile="${isMobile()}"></logo>
-				<nav-menu mobile="${isMobile()}"></nav-menu>
+				<logo mobile="${isMobile.value}"></logo>
+				<nav-menu mobile="${isMobile.value}"></nav-menu>
 			</div>
 			<div class="content">
-				<div class="title">
-					Explore the beauty of
-					the World
-				</div>
-				<div class="subtitle">
-					Receive personalized recommendations for countries, hotels, activities and more
-				</div>
+				${!isMobile.value ? /*html*/`
+					<div class="title">
+						Explore the beauty of
+						the World
+					</div>
+					<div class="subtitle">
+						Receive personalized recommendations for countries, hotels, activities and more
+					</div>
+				` : ''}
 				<div class="like-form">
 					What would you like to do?
 					<input type="button" value="Start Planning">
@@ -46,19 +49,19 @@ const mount = () => app.innerHTML = Renderer(/*html*/
 			</div>
 		</titled-section>
 		<titled-section name="POPULAR DESTINATIONS">
-			<carousel>
-				<carousel-image src="/img/rocks_sea_d.png.webp" title="SPAIN"></carousel-image>
-				<carousel-image src="/img/gate_d.png.webp" title="JAPAN"></carousel-image>
-				<carousel-image src="/img/bridge_d.png.webp" title="USA"></carousel-image>
+			<carousel mobile="${isMobile.value}">
+				<carousel-image src="/img/rocks_sea_${isMobile.value ? 'm' : 'd'}.png.webp" title="SPAIN"></carousel-image>
+				<carousel-image src="/img/gate_${isMobile.value ? 'm' : 'd'}.png.webp" title="JAPAN"></carousel-image>
+				<carousel-image src="/img/bridge_${isMobile.value ? 'm' : 'd'}.png.webp" title="USA"></carousel-image>
 			</carousel>
-			<div class="flex-row" style="margin-top: 40px">
+			<div class="flex-row" style="margin-top: ${isMobile.value ? 10 : 40}px">
 				<i-button icon="/icons/arrow-right.svg">Find More</i-button>
 			</div>
 		</titled-section>
 		<titled-section name="TRAVEL STORIES" class="travel-stories">
 			<div class="stories-footer">
 				<section class="stories">
-					${images.map(i => i.render()).join('\n')}
+					${images().map(i => i.render()).join('\n')}
 					<div class="flex-row" style="margin-top: 10px">
 						<i-button icon="/icons/arrow-right.svg">See More</i-button>
 					</div>
@@ -85,34 +88,34 @@ const mount = () => app.innerHTML = Renderer(/*html*/
 	}
 );
 
-const images = [
+const images = () => [
 	DescribedImage({
-		picture: '/img/rift_boat_d.png.webp',
+		picture: `/img/rift_boat_${isMobile.value ? 'm' : 'd'}.png.webp`,
 		title: '10 Photos of Attractive Thailand',
 		description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.Lorem ipsum dolor sit amet, consectetur adipiscing elit...',
 		furtherRead: { link: '/' }
 	}),
 	DescribedImage({
-		picture: '/img/road_d.png.webp',
+		picture: `/img/road_${isMobile.value ? 'm' : 'd'}.png.webp`,
 		title: 'Canyonlands National Park, Utah',
 		description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.Lorem ipsum dolor sit amet, consectetur adipiscing elit...',
 		furtherRead: { link: '/' }
 	}),
 	DescribedImage({
-		picture: '/img/snow_hills_d.png.webp',
+		picture: `/img/snow_hills_${isMobile.value ? 'm' : 'd'}.png.webp`,
 		title: 'I left my heart in the Mountains!',
 		description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.Lorem ipsum dolor sit amet, consectetur adipiscing elit...',
 		furtherRead: { link: '/' }
 	}),
 	DescribedImage({
-		picture: '/img/car_d.png.webp',
+		picture: `/img/car_${isMobile.value ? 'm' : 'd'}.png.webp`,
 		title: 'The Longest journey in my life!',
 		description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.Lorem ipsum dolor sit amet, consectetur adipiscing elit...',
 		furtherRead: { link: '/' }
 	})
 ];
 
-const isMobile = () => document.body.clientWidth <= document.body.clientHeight;
+const isMobile = Getter(() => window.innerWidth <= window.innerHeight);
 
 mount();
-Array.from(document.querySelectorAll('*')).forEach(n => n.classList.add(isMobile() ? 'mobile' : 'desktop'));
+Array.from(document.querySelectorAll('*')).forEach(n => n.classList.add(isMobile.value ? 'mobile' : 'desktop'));

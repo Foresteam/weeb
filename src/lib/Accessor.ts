@@ -43,3 +43,5 @@ export const Accessorify = <T>(value: T): T extends IAccessor<infer A> ? IAccess
 		return value as T extends IAccessor<infer A> ? IAccessor<A> : IAccessor<T>;
 	return Accessor(value) as T extends IAccessor<infer A> ? IAccessor<A> : IAccessor<T>;
 };
+
+export const Getter = <T>(get: () => T): IAccessor<T> => Accessor(get(), { get, set: () => false });

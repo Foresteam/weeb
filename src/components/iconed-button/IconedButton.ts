@@ -1,4 +1,4 @@
-import { Component, type VNode, type ComponentProps, useCssVars, useOnMounted } from 'lib/Component';
+import { Component, type VNode, type ComponentProps, useCssVars, useOnMounted, useStyle } from 'lib/Component';
 
 export interface Props extends ComponentProps {
 	icon: string;
@@ -25,3 +25,7 @@ export const IconedButton = ({ icon, text, action, ...props }: Props): VNode => 
 
 	return self;
 };
+
+//styles
+import style from './IconedButton.sass?inline';
+useStyle(style, IconedButton.name);

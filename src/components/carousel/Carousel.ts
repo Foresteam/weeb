@@ -9,13 +9,15 @@ export interface Props extends ComponentProps {
 
 export const Carousel = ({ mobile, ...props }: Props): VNode => {
 	const page = Accessor(0);
-	const GAP = 60;
-	const WIMAGE = 800;
+	const GAP = mobile ? 30 : 60;
+	const WIMAGE = mobile ? 360 : 800;
+	const HIMAGE = mobile ? 210 : 800;
 	const self = {
 		exports: {
 			css: {
 				GAP: Accessor(`${GAP}px`),
 				WIMAGE: Accessor(`${WIMAGE}px`),
+				HIMAGE: Accessor(`${HIMAGE}px`),
 			},
 			refs: {
 				items: Accessor<HTMLElement | undefined>(undefined),
@@ -28,10 +30,8 @@ export const Carousel = ({ mobile, ...props }: Props): VNode => {
 				<div class="items" ref="items">
 					<slot></slot>
 				</div>
-				<fieldset>
-					<div class="pagination" ref="pagination">
-
-					</div>
+				<fieldset class="pagination-wrapper">
+					<div class="pagination" ref="pagination"></div>
 				</fieldset>
 			</div>
 			`,

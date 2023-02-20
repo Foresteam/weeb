@@ -1,21 +1,34 @@
 .__vscope
 	overflow: hidden
-	// make it full-page-sized
-	width: 100vw
-	margin-left: calc((100% - 100vw) / 2)
+	position: relative
 	.items
 		display: flex
 		flex-flow: row
 		gap: vcss(GAP)
-		height: vcss(WIMAGE)
-		margin-bottom: 24px
+		height: vcss(HIMAGE)
 		margin-left: calc(50% - vcss(WIMAGE) / 2)
 		transition: .7s ease-out
 		>*
-			aspect-ratio: 1
+			width: vcss(WIMAGE)
+			min-width: vcss(WIMAGE)
 			border-radius: 16px
 	.pagination
 		display: flex
 		flex-flow: row
 		align-items: center
 		justify-content: center
+	.pagination-wrapper
+		margin-top: 24px
+		&.mobile
+			margin-top: 0px
+			position: absolute
+			bottom: 12px
+			left: 0px
+			right: 0px
+	
+	// make it full-page-sized
+	width: 100vw
+	margin-left: calc((100% - 100vw) / 2)
+	&.mobile
+		width: 100%
+		margin-left: 0px

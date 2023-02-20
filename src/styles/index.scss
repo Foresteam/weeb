@@ -1,4 +1,5 @@
 section.header {
+	position: relative;
 	color: white;
 	height: 765px;
 	background-image: url('/img/hills_lake_d.png.webp');
@@ -23,9 +24,15 @@ section.header {
 
 		>:first-child {
 			margin-left: 120px;
+			&.mobile {
+				margin-left: 16px;
+			}
 		}
 		>:last-child {
 			margin-right: 120px;
+			&.mobile {
+				margin-right: 20px;
+			}
 		}
 
 		height: 90px;
@@ -64,24 +71,64 @@ section.header {
 			background-color: rgba(255, 255, 255, 0.7);
 			border-radius: 16px;
 			padding: 18px 18px 18px 41px;
+			&.mobile {
+				padding: 9px;
+				padding-left: 16.5px;
+				font-size: 14px;
+				line-height: 17px;
+				font-weight: 400;
+			}
 		}
 
 		margin-top: 32px;
 		margin-left: 120px;
 		margin-right: 428px;
 		bottom: 221px;
+		&.mobile {
+			position: absolute;
+			margin: 0px;
+			top: 142px;
+			left: 15px;
+			right: 15px;
+			bottom: 61px;
+		}
 	}
 }
 section >.bicycle-wrapper {
 	display: flex;
 	flex-flow: row;
-	padding: 0px 132px;
-	justify-content: center;
 	>:first-child {
 		margin-right: 231px;
+		&.mobile {
+			width: 94px;
+			margin-right: 31px;
+			align-items: flex-start !important;
+			* {
+				text-align: left !important;
+			}
+		}
+	}
+	>* {
+		width: 111px;
+		* {
+			text-align: center !important;
+		}
 	}
 	>:last-child {
 		margin-left: 160px;
+		&.mobile {
+			width: 98px;
+			margin-left: 26px;
+			align-items: flex-end !important;
+			* {
+				text-align: right !important;
+			}
+		}
+	}
+	justify-content: center;
+	padding: 0px 132px;
+	&.mobile {
+		padding: 0px 15px;
 	}
 }
 
