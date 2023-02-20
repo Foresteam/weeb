@@ -22,7 +22,7 @@ export const Accessor = <T>(value: T, actions?: IAccessorArgs<T> | INAccessorArg
 
 	let { get: _get, set: _set } = actions ?? {};
 	_get ??= function () { return o.value; };
-	_set ??= (newValue) => !!(o.value = newValue);
+	_set ??= (newValue) => !!(o.value = newValue) || true;
 
 	const get = () => (_get as IAccessorArgs<T>['get']).call(o);
 	const set = (newValue: T) => {

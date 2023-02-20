@@ -57,6 +57,7 @@ export interface VNode {
 	uuid: string;
 	/** The rendered node itself */
 	render: () => string;
+	toString: () => string;
 	/** VNode */
 	node: IAccessor<HTMLElement>;
 	/** Component real node getter */
@@ -64,6 +65,9 @@ export interface VNode {
 	exports?: {
 		css?: {
 			[key: string]: IAccessor<string>;
+		},
+		refs?: {
+			[key: string]: IAccessor<HTMLElement | undefined>;
 		}
 	} & { [key: string]: IAccessor<unknown>; };
 }
@@ -118,6 +122,7 @@ export const Component = (html: string, uname: string, props: ComponentProps = {
 	const vnode: VNode = {
 		node: node,
 		render: () => node.value.outerHTML,
+		toString() { return this.render(); },
 		uuid,
 		isMounted: () => node.value != _vnode
 	};
@@ -136,6 +141,13 @@ export const useCssVars = (vnode: VNode): void => {
 		apply(accessor.value as string);
 	}
 };
+export const useRefs = (vnode: VNode): void => useOnMounted(vnode, domNode => {
+	for (const [ref, accessor] of Object.entries(vnode.exports?.refs || {})) {
+		const el = domNode.querySelector(`*[ref="${ref}"]`) as HTMLElement || undefined;
+		accessor.value = el;
+		el?.removeAttribute('ref');
+	}
+});
 
 export const useOnMounted = (vnode: VNode, callback: (node: HTMLElement) => unknown): void => {
 	if (!observingCallbacks[vnode.uuid])

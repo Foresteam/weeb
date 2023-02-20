@@ -1,0 +1,21 @@
+.__vscope
+	overflow: hidden
+	// make it full-page-sized
+	width: 100vw
+	margin-left: calc((100% - 100vw) / 2)
+	.items
+		display: flex
+		flex-flow: row
+		gap: vcss(GAP)
+		height: vcss(WIMAGE)
+		margin-bottom: 24px
+		margin-left: calc(50% - vcss(WIMAGE) / 2)
+		transition: .7s ease-out
+		>*
+			aspect-ratio: 1
+			border-radius: 16px
+	.pagination
+		display: flex
+		flex-flow: row
+		align-items: center
+		justify-content: center

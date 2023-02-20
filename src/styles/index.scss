@@ -7,14 +7,19 @@ section.header {
 		height: 251px;
 	}
 	div.nav {
-		background-color: #F2785CB2;
 		display: flex;
+		justify-content: space-between;
 		flex-flow: row;
 		align-items: center;
-		justify-content: space-between;
 		width: 100%;
-		box-shadow: 0px 4px 4px rgba(13, 96, 111, 0.5);
 		font-family: 'Red Hat Text';
+
+		background-color: #F2785CB2;
+		box-shadow: 0px 4px 4px rgba(13, 96, 111, 0.5);
+		&.mobile {
+			background-color: transparent;
+			box-shadow: none;
+		}
 
 		>:first-child {
 			margin-left: 120px;
@@ -31,16 +36,6 @@ section.header {
 			font-size: inherit;
 			line-height: inherit;
 			padding: 10px 30px;
-		}
-
-		nav {
-			display: flex;
-			flex-flow: row;
-			align-items: center;
-			gap: 42px;
-			>* {
-				cursor: pointer;
-			}
 		}
 	}
 	div.content {
@@ -133,5 +128,6 @@ section.travel-stories {
 	img {
 		width: 33.65px;
 		height: 33.65px;
+		cursor: pointer;
 	}
 }
