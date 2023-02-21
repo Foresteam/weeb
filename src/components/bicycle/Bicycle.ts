@@ -1,5 +1,5 @@
 import { type IAccessor, Accessorify } from 'lib/Accessor';
-import { Component, useStyle, type VNode, type ComponentProps, useCssVars } from 'lib/Component';
+import { Component, useStyle, type VNode, type ComponentProps } from 'lib/Component';
 
 export interface Props extends ComponentProps {
 	img: string | IAccessor<string>;
@@ -11,9 +11,6 @@ export const Bicycle = ({ img: _img, text: _text, ...props }: Props): VNode => {
 	const text = Accessorify(_text);
 
 	const self = {
-		exports: {
-			css: {}
-		} as unknown as VNode['exports'],
 		...Component(/*html*/
 			`
 				<div class="bicycle">
@@ -25,7 +22,6 @@ export const Bicycle = ({ img: _img, text: _text, ...props }: Props): VNode => {
 			props
 		)
 	};
-	useCssVars(self);
 
 	return self;
 };

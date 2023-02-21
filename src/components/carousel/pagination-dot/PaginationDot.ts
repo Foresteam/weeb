@@ -1,5 +1,5 @@
 import { type IAccessor } from 'lib/Accessor';
-import { Component, useStyle, type VNode, type ComponentProps, useCssVars, useOnMounted } from 'lib/Component';
+import { Component, useStyle, type VNode, type ComponentProps, useOnMounted } from 'lib/Component';
 
 export interface Props extends ComponentProps {
 	page: IAccessor<number>;
@@ -18,7 +18,6 @@ export const PaginationDot = ({ page, n, selected, name, ...props }: Props): VNo
 			props
 		)
 	};
-	useCssVars(self);
 
 	useOnMounted(self, root => root.addEventListener('click', () => page.value = n));
 

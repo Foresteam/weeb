@@ -1,5 +1,5 @@
 import { Accessor, IAccessor } from 'lib/Accessor';
-import { Component, useStyle, type VNode, type ComponentProps, useCssVars, useOnMounted, useRefs } from 'lib/Component';
+import { Component, useStyle, type VNode, type ComponentProps, useOnMounted, useRefs } from 'lib/Component';
 
 export interface Props extends ComponentProps {
 	mobile: boolean;
@@ -9,16 +9,10 @@ export const NavMenu = ({ mobile, ...props }: Props): VNode => {
 	const menu = Accessor(false);
 
 	const self = {
-		exports: {
-			refs: {
-				nav: Accessor<HTMLElement | undefined>(undefined),
-				menuBtn: Accessor<HTMLElement | undefined>(undefined),
-				crossBtn: Accessor<HTMLElement | undefined>(undefined),
-			}
-		} as unknown as VNode['exports'],
 		...Component(/*html*/
 			`
 			<div class="nav-menu">
+				${mobile ? '<div class="nav-wrapper" ref="navW">' : ''}
 				<nav ref="nav">
 					${mobile ? /*html*/`
 						<div class="cross-btn" ref="crossBtn">
@@ -36,8 +30,9 @@ export const NavMenu = ({ mobile, ...props }: Props): VNode => {
 						` : ''}
 					</div>
 				</nav>
+				${mobile ? '</div>' : ''}
 				${!mobile ? /*html*/`
-					<input type="button" class="login" value="Login">`
+					<input type="button" class="login" value="Login" ref="login">`
 	// eslint-disable-next-line indent
 				: /*html*/`
 					<img src="/icons/menu.svg" class="menu-btn" ref="menuBtn">
@@ -48,23 +43,38 @@ export const NavMenu = ({ mobile, ...props }: Props): VNode => {
 			props
 		)
 	};
-	useCssVars(self);
-	useRefs(self);
+	const refs = {
+		navW: Accessor<HTMLElement | undefined>(undefined),
+		nav: Accessor<HTMLElement | undefined>(undefined),
+		menuBtn: Accessor<HTMLElement | undefined>(undefined),
+		crossBtn: Accessor<HTMLElement | undefined>(undefined),
+		login: Accessor<HTMLElement | undefined>(undefined),
+	};
+	useRefs(self, refs);
 
-	useOnMounted(self, () => {
-		const nav = self.exports?.refs?.nav as IAccessor<HTMLElement>;
-		const menuBtn = self.exports?.refs?.menuBtn as IAccessor<HTMLElement>;
-		const crossBtn = self.exports?.refs?.crossBtn as IAccessor<HTMLElement>;
-		const initialDisplay = nav.value.style.display;
+	if (mobile)
+		useOnMounted(self, () => {
+			const navW = refs.navW as IAccessor<HTMLElement>;
+			const nav = refs.nav as IAccessor<HTMLElement>;
+			const menuBtn = refs.menuBtn as IAccessor<HTMLElement>;
+			const crossBtn = refs.crossBtn as IAccessor<HTMLElement>;
+			const initialDisplay = navW.value.style.display;
 
-		menu.onChange(v => {
-			nav.value.style.opacity = v ? '1' : '0';
-			nav.value.style.display = v ? initialDisplay : 'none';
+			menu.onChange(v => {
+				navW.value.style.opacity = v ? '1' : '0';
+				navW.value.style.display = v ? initialDisplay : 'none';
+			});
+			menu.value = !mobile;
+			menuBtn.value.addEventListener('click', () => menu.value = !menu.value);
+			crossBtn.value.addEventListener('click', () => menu.value = false);
+			navW.value.addEventListener('click', () => menu.value = false);
+			nav.value.addEventListener('click', e => e.stopPropagation());
 		});
-		menu.value = !mobile;
-		menuBtn.value.addEventListener('click', () => menu.value = !menu.value);
-		crossBtn.value.addEventListener('click', () => menu.value = false);
-	});
+	else
+		useOnMounted(self, () => {
+			const login = refs.login as IAccessor<HTMLElement>;
+			login.value.addEventListener('click', () => alert('Not implemented'));
+		});
 
 	return self;
 };

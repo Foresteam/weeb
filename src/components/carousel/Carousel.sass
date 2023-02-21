@@ -26,6 +26,19 @@
 			left: 0px
 			right: 0px
 	
+	.arrows
+		position: absolute
+		left: calc(vcss(GAP) / 2 + 5px)
+		right: calc(vcss(GAP) / 2 + 5px)
+		top: 90px
+		display: flex
+		flex-flow: row
+		justify-content: space-between
+		align-items: center
+		pointer-events: painted
+		.inactive
+			opacity: .5
+	
 	// make it full-page-sized
 	width: 100vw
 	margin-left: calc((100% - 100vw) / 2)

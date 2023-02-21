@@ -10,11 +10,6 @@ export const Image = ({ src: _src, ...props }: ImageProps): VNode => {
 	const borderRadius = Accessor('0%');
 
 	const self = {
-		exports: {
-			css: {
-				borderRadius
-			}
-		} as unknown as VNode['exports'],
 		...Component(
 		/*html*/`
 			<img src="${src.value}">
@@ -23,7 +18,9 @@ export const Image = ({ src: _src, ...props }: ImageProps): VNode => {
 			props
 		)
 	};
-	useCssVars(self);
+	useCssVars(self, {
+		borderRadius
+	});
 
 	setTimeout(() => borderRadius.value = '50%', 1000);
 

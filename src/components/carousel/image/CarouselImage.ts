@@ -12,11 +12,6 @@ export const CarouselImage = ({ title: _title, src: _src, ...props }: Props): VN
 	src.value = `url('${src.value}')`;
 
 	const self = {
-		exports: {
-			css: {
-				src
-			}
-		} as unknown as VNode['exports'],
 		...Component(/*html*/
 			`
 				<div>
@@ -27,7 +22,9 @@ export const CarouselImage = ({ title: _title, src: _src, ...props }: Props): VN
 			props
 		)
 	};
-	useCssVars(self);
+	useCssVars(self, {
+		src
+	});
 
 	return self;
 };

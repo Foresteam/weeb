@@ -3,9 +3,20 @@ section.header {
 	color: white;
 	height: 765px;
 	background-image: url('/img/hills_lake_d.png.webp');
+	background-size: contain;
 	&.mobile {
 		background-image: url('/img/hills_lake_m.png.webp');
 		height: 251px;
+		&::after {
+			content: '';
+			pointer-events: none;
+			position: absolute;
+			top: 0px;
+			bottom: 0px;
+			left: 0px;
+			right: 0px;
+			background: linear-gradient(180deg, #0D606F 0%, rgba(13, 96, 111, 0) 25.1%);
+		}
 	}
 	div.nav {
 		display: flex;
@@ -39,6 +50,10 @@ section.header {
 		font-weight: 500;
 		font-size: 16px;
 		line-height: 21px;
+		&.mobile {
+			height: auto;
+			padding-top: 43px;
+		}
 		input {
 			font-size: inherit;
 			line-height: inherit;
@@ -140,20 +155,24 @@ section.travel-stories {
 		background-clip: content-box;
 		background-size: 100% auto;
 		background-position: 0% 100%;
-		.mobile {
+		&.mobile {
 			background-image: url('/img/lake_boat_m.png');
 		}
 		section.stories {
 			background-color: #FFFFFFB2;
-			padding: 40px 120px;
 			display: flex;
 			flex-flow: column;
 			gap: 30px;
+			padding: 40px 120px;
+			&.mobile {
+				gap: 15px;
+				padding: 10px 15px 13px;
+			}
 		}
 		section.footer {
 			color: white;
 			position: relative;
-			padding: 21px 0px 19px;
+			padding: 14px 0px 13.35px;
 			text-align: center;
 			font-family: 'Red Hat Text';
 			font-style: normal;
@@ -161,20 +180,45 @@ section.travel-stories {
 	
 			font-size: 16px;
 			line-height: 21px;
+			display: flex;
+			flex-flow: row;
+			align-items: center;
+			&.desktop {
+				>:first-child {
+					flex-grow: 1;
+				}
+			}
+			&.mobile {
+				>:last-child {
+					flex-grow: 1;
+				}
+			}
+		}
+		.see-more-stories {
+			margin-top: 15px;
+			&.mobile {
+				margin-top: -5px;
+			}
 		}
 	}
 }
 
 .social {
-	position: absolute;
 	display: flex;
-	flex-flow: row-reverse;
+	flex-flow: row;
 	gap: 20px;
-	top: 14px;
-	right: 123px;
 	img {
 		width: 33.65px;
 		height: 33.65px;
 		cursor: pointer;
+	}
+	&.desktop {
+		margin-right: 123px;
+		// position: absolute;
+		// right: 123px;
+		// top: 14px;
+	}
+	&.mobile {
+		justify-content: center;
 	}
 }

@@ -9,9 +9,6 @@ export interface Props extends ComponentProps {
 
 export const DescribedImage = ({ picture, title, description, furtherRead, ...props }: Props): VNode => {
 	const self = {
-		exports: {
-			css: {}
-		} as unknown as VNode['exports'],
 		...Component(/*html*/
 			`
 				<div>

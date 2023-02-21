@@ -1,6 +1,13 @@
 .__vscope
 	.cross-btn, .menu-btn
 		cursor: pointer
+	.nav-wrapper
+		position: fixed
+		z-index: 1
+		top: 0px
+		bottom: 0px
+		left: 0px
+		right: 0px
 	nav
 		display: flex
 		align-items: center
@@ -19,8 +26,9 @@
 		.cross-btn
 			grid-column: 1
 			grid-row: 1
+			height: 30px
 		&.mobile
-			z-index: 1
+			z-index: 2
 			display: grid
 			align-items: flex-start
 			position: fixed
@@ -33,3 +41,6 @@
 			>*
 				text-align: right
 				width: 100%
+	&.desktop
+		display: flex
+		gap: 196px

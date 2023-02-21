@@ -62,14 +62,7 @@ export interface VNode {
 	node: IAccessor<HTMLElement>;
 	/** Component real node getter */
 	isMounted: () => boolean;
-	exports?: {
-		css?: {
-			[key: string]: IAccessor<string>;
-		},
-		refs?: {
-			[key: string]: IAccessor<HTMLElement | undefined>;
-		}
-	} & { [key: string]: IAccessor<unknown>; };
+	exports?: { [key: string]: IAccessor<unknown>; };
 }
 export interface ComponentParams {
 	/** The unique identifier for the root node of the component */
@@ -131,18 +124,16 @@ export const Component = (html: string, uname: string, props: ComponentProps = {
 };
 
 export const CSS_VAR_PREFIX = '__vcss_';
-export const useCssVars = (vnode: VNode): void => {
-	if (!vnode.exports)
-		return;
-	for (const [varname, accessor] of Object.entries(vnode.exports.css || {})) {
+export const useCssVars = (vnode: VNode, vars: { [key: string]: IAccessor<string>; }): void => {
+	for (const [varname, accessor] of Object.entries(vars)) {
 		const apply = (value: string) =>
 			vnode.node.value.style.setProperty(`--${CSS_VAR_PREFIX}${varname}`, value);
 		accessor.onChange(value => apply(value as string));
 		apply(accessor.value as string);
 	}
 };
-export const useRefs = (vnode: VNode): void => useOnMounted(vnode, domNode => {
-	for (const [ref, accessor] of Object.entries(vnode.exports?.refs || {})) {
+export const useRefs = (vnode: VNode, refs: { [key: string]: IAccessor<HTMLElement | undefined>; }): void => useOnMounted(vnode, domNode => {
+	for (const [ref, accessor] of Object.entries(refs)) {
 		const el = domNode.querySelector(`*[ref="${ref}"]`) as HTMLElement || undefined;
 		accessor.value = el;
 		el?.removeAttribute('ref');

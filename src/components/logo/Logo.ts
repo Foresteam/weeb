@@ -1,4 +1,4 @@
-import { Component, useStyle, type VNode, type ComponentProps, useCssVars } from 'lib/Component';
+import { Component, useStyle, type VNode, type ComponentProps } from 'lib/Component';
 
 export interface LogoProps extends ComponentProps {
 	mobile: boolean;
@@ -17,7 +17,6 @@ export const Logo = ({ mobile, ...props }: LogoProps): VNode => {
 			props
 		)
 	};
-	useCssVars(self);
 
 	return self;
 };

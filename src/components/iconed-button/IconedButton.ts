@@ -1,4 +1,4 @@
-import { Component, type VNode, type ComponentProps, useCssVars, useOnMounted, useStyle } from 'lib/Component';
+import { Component, type VNode, type ComponentProps, useOnMounted, useStyle } from 'lib/Component';
 
 export interface Props extends ComponentProps {
 	icon: string;
@@ -20,7 +20,6 @@ export const IconedButton = ({ icon, text, action, ...props }: Props): VNode => 
 			props
 		)
 	};
-	useCssVars(self);
 	useOnMounted(self, root => action && root.addEventListener('click', action));
 
 	return self;
