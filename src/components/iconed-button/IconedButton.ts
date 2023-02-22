@@ -1,4 +1,4 @@
-import { Component, type VNode, type ComponentProps, useOnMounted, useStyle } from 'lib/Component';
+import { Component, type VNode, type ComponentProps, useOnMounted, useStyle } from '@foresteam/proactive';
 
 export interface Props extends ComponentProps {
 	icon: string;

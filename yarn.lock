@@ -127,6 +127,14 @@
     minimatch "^3.1.2"
     strip-json-comments "^3.1.1"
 
+"@foresteam/proactive@^0.0.2":
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/@foresteam/proactive/-/proactive-0.0.2.tgz#3754367ac7a60b44caff7fd1112936e03daff094"
+  integrity sha512-7SKqJKrH5i+qKxVLaelDspS1Ift9C6lVbNtcRHx6A++3asF3Ja71mtVfj2Wyd0RV6CLAuX339TWw3iyccCEhCg==
+  dependencies:
+    blueimp-md5 "^2.19.0"
+    uuid "^9.0.0"
+
 "@humanwhocodes/config-array@^0.11.8":
   version "0.11.8"
   resolved "https://registry.yarnpkg.com/@humanwhocodes/config-array/-/config-array-0.11.8.tgz#03595ac2075a4dc0f191cc2131de14fbd7d410b9"

@@ -1,5 +1,5 @@
-import { type IAccessor, Accessorify } from 'lib/Accessor';
-import { Component, useStyle, type VNode, type ComponentProps, useCssVars } from 'lib/Component';
+import { type IAccessor, Accessorify } from '@foresteam/proactive';
+import { Component, useStyle, type VNode, type ComponentProps, useCssVars } from '@foresteam/proactive';
 
 export interface Props extends ComponentProps {
 	title: boolean | IAccessor<boolean>;

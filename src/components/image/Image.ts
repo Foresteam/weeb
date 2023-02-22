@@ -1,5 +1,5 @@
-import { Accessor, type IAccessor, Accessorify } from 'lib/Accessor';
-import { Component, useStyle, type VNode, type ComponentProps, useCssVars } from 'lib/Component';
+import { Accessor, type IAccessor, Accessorify } from '@foresteam/proactive';
+import { Component, useStyle, type VNode, type ComponentProps, useCssVars } from '@foresteam/proactive';
 
 export interface ImageProps extends ComponentProps {
 	src: string | IAccessor<string>;

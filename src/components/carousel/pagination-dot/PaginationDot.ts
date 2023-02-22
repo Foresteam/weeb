@@ -1,5 +1,5 @@
-import { type IAccessor } from 'lib/Accessor';
-import { Component, useStyle, type VNode, type ComponentProps, useOnMounted } from 'lib/Component';
+import { type IAccessor } from '@foresteam/proactive';
+import { Component, useStyle, type VNode, type ComponentProps, useOnMounted } from '@foresteam/proactive';
 
 export interface Props extends ComponentProps {
 	page: IAccessor<number>;

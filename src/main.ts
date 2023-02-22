@@ -4,15 +4,15 @@ import './styles/main.scss';
 import './styles/index.scss';
 import { Logo } from './components/logo/Logo';
 import { TitledSection } from './components/sections/TitledSection';
-import { type TComponent } from 'lib/Component';
-import { Renderer } from 'lib/Renderer';
+import { type TComponent } from '@foresteam/proactive';
+import { Renderer } from '@foresteam/proactive';
 import { Bicycle } from './components/bicycle/Bicycle';
 import { DescribedImage } from './components/described-image/DescribedImage';
 import { Carousel } from './components/carousel/Carousel';
 import { CarouselImage } from './components/carousel/image/CarouselImage';
 import { IconedButton } from './components/iconed-button/IconedButton';
 import { NavMenu } from './components/nav-menu/NavMenu';
-import { Getter } from 'lib/Accessor';
+import { Getter } from '@foresteam/proactive';
 
 const app = document.querySelector<HTMLDivElement>('#app');
 if (!app)

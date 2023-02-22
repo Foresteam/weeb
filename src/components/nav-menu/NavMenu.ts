@@ -1,5 +1,5 @@
-import { Accessor, IAccessor } from 'lib/Accessor';
-import { Component, useStyle, type VNode, type ComponentProps, useOnMounted, useRefs } from 'lib/Component';
+import { Accessor, IAccessor } from '@foresteam/proactive';
+import { Component, useStyle, type VNode, type ComponentProps, useOnMounted, useRefs } from '@foresteam/proactive';
 
 export interface Props extends ComponentProps {
 	mobile: boolean;
