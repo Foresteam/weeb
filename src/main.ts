@@ -129,3 +129,12 @@ const isMobile = Getter(() => window.innerWidth <= window.innerHeight);
 
 mount();
 Array.from(document.querySelectorAll('*')).forEach(n => n.classList.add(isMobile.value ? 'mobile' : 'desktop'));
+
+const scale = () => {
+	const siteWidth = 390;
+	const scale = screen.width / siteWidth;
+
+	document.querySelector('meta[name="viewport"]')?.setAttribute('content', `width=${siteWidth}, initial-scale=${scale}`);
+};
+if (isMobile.value)
+	scale();
