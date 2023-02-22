@@ -1,5 +1,5 @@
 # Test cross-platform landing
-Uses my own frontend library for component approach. I was originally trying to recreate Vue to some extent.
+Uses my own frontend library for component approach. I was originally intended to recreate Vue to some extent.
 
 *Note: towebp is a script for converting images to webp, width compression*
 
