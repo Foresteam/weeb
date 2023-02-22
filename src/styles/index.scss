@@ -159,6 +159,7 @@ section.travel-stories {
 		background-position: 0% 100%;
 		&.mobile {
 			background-image: url('/img/lake_boat_m.png');
+			background-size: auto 100%;
 		}
 		section.stories {
 			background-color: #FFFFFFB2;
