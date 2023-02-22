@@ -1,7 +1,7 @@
 # Test cross-platform landing
 Uses my own frontend library for component approach. I was originally intended to recreate Vue to some extent.
 
-*Note: towebp is a script for converting images to webp, width compression*
+*Note: towebp is a script for converting images to webp, with compression*
 
 ## Setup
 Install **Node.JS v16**, **yarn**.
