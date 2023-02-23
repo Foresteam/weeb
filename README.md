@@ -12,6 +12,18 @@ yarn -D
 yarn dev
 ```
 
+## Production
+```sh
+yarn build
+```
+The build will be in **dist/**.
+
+To start a development server:
+```sh
+yarn --optional
+(cd dist; yarn exec serve)
+```
+
 Reference: https://www.figma.com/file/BhULVGGIachSAjoBazhP9P/Travel?node-id=8%3A15&t=VMxj4HwhDhsQeR2h-0
 
 ## The site
