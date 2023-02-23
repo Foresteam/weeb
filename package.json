@@ -11,7 +11,6 @@
   "devDependencies": {
     "@foresteam/proactive": "^0.1.1",
     "@types/blueimp-md5": "^2.18.0",
-    "@types/is-mobile": "^2.1.4",
     "@types/uuid": "^9.0.0",
     "@typescript-eslint/eslint-plugin": "^5.51.0",
     "@typescript-eslint/parser": "^5.51.0",

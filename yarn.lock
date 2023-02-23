@@ -180,13 +180,6 @@
   resolved "https://registry.yarnpkg.com/@types/blueimp-md5/-/blueimp-md5-2.18.0.tgz#a5c44fa0a61f5840e95a7965eafcec2c30d6c4df"
   integrity sha512-f4A+++lGZGJvVSgeyMkqA7BEf2BVQli6F+qEykKb49c5ieWQBkfpn6CP5c1IZr2Yi2Ofl6Fj+v0e1fN18Z8Cnw==
 
-"@types/is-mobile@^2.1.4":
-  version "2.1.4"
-  resolved "https://registry.yarnpkg.com/@types/is-mobile/-/is-mobile-2.1.4.tgz#132d20fdb159caefdb916d8978dd36f1d2f54f66"
-  integrity sha512-VgtIcn8wEhZ1PcFpIp0Mbz5rNdF44zVba69tmmunlbwvopr2Mw32s32s/KJDIb06fgCGB7sIilvEffrSQFmZ7Q==
-  dependencies:
-    is-mobile "*"
-
 "@types/json-schema@^7.0.9":
   version "7.0.11"
   resolved "https://registry.yarnpkg.com/@types/json-schema/-/json-schema-7.0.11.tgz#d421b6c527a3037f7c84433fd2c4229e016863d3"
@@ -1005,11 +998,6 @@ is-glob@^4.0.0, is-glob@^4.0.1, is-glob@^4.0.3, is-glob@~4.0.1:
   integrity sha512-xelSayHH36ZgE7ZWhli7pW34hNbNl8Ojv5KVmkJD4hBdD3th8Tfk9vYasLM+mXWOZhFkgZfxhLSnrwRr4elSSg==
   dependencies:
     is-extglob "^2.1.1"
-
-is-mobile@*:
-  version "3.1.1"
-  resolved "https://registry.yarnpkg.com/is-mobile/-/is-mobile-3.1.1.tgz#3b9e48f40068e4ea2da411f5009779844ce8d6aa"
-  integrity sha512-RRoXXR2HNFxNkUnxtaBdGBXtFlUMFa06S0NUKf/LCF+MuGLu13gi9iBCkoEmc6+rpXuwi5Mso5V8Zf7mNynMBQ==
 
 is-number@^7.0.0:
   version "7.0.0"
